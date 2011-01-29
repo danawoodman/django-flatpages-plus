@@ -57,7 +57,7 @@ Here are a few more useful examples:
 
     {% get_flatpages sort='random' limit=5 %}
 
-... which will return the flatpages in random order, limiting the results to 5 flatpages.
+... which will return the flatpages in random order, limiting the results to five flatpages.
 
     {% get_flatpages user=1 limit=5 as user_flatpages %}
 
