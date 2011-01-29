@@ -1,0 +1,4 @@
+*.py[co]
+*.db
+.DS_store
+*.egg-info
