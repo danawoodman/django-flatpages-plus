@@ -22,7 +22,8 @@ class FlatPageAdmin(admin.ModelAdmin):
             'fields': (
                 'enable_comments', 
                 'registration_required', 
-                'template_name'
+                'template_name',
+                'views',
             )
         }),
     )
