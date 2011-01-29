@@ -22,13 +22,13 @@ class FlatpagesManager(models.Manager):
         All fields are optional. If nothing is passed to this manager, it will 
         return all flatpages, sorted by most recent.
         
-        sort=                       What to sort the flatpages by. Optional.
-            'modified'              Returns newest flatpages first. Default.
-            '-modified'             Returns oldest flatpages first.
-            'created'               Returns newest flatpages first.
-            '-created'              Returns oldest flatpages first.
-            'views'                 Returns the most viewed flatpages first.
-            '-views'                Returns the least viewed flatpages first.
+        sort=                       What to sort the flatpages by. Optional. Default is by url.
+            'created'               Returns least recently created flatpages first.
+            '-created'              Returns most recently created flatpages first.
+            'modified'              Returns least recently modified flatpages first.
+            '-modified'             Returns most recently modified flatpages first.
+            'views'                 Returns the least viewed flatpages first.
+            '-views'                Returns the most viewed flatpages first.
             'random'                Returns random flatpages.
 
         tags='foo,bar,baz'          Returns all flatpages tagged with _either_      
@@ -55,11 +55,8 @@ class FlatpagesManager(models.Manager):
             '-modified': query_set.order_by('-modified'),
             'created': query_set.order_by('created'),
             '-created': query_set.order_by('-created'),
-            # TODO: Add popular filters....
-            # 'popular': query_set.order_by('recent'),
-            # '-popular': query_set.order_by('recent'),
-            'views': query_set.order_by('-views'),
-            '-views': query_set.order_by('views'),
+            'views': query_set.order_by('views'),
+            '-views': query_set.order_by('-views'),
             'random': query_set.order_by('?')
         }
         
@@ -112,18 +109,18 @@ class FlatpagesManager(models.Manager):
         """
         return self.get_flatpages(self, '-created', limit=limit)
     
-    def most_popular(self, limit=None):
-        """
-        Get the most popular flatpages.
-        """
-        return self.get_flatpages(self, 'popular', limit=limit)
-    
-    def least_popular(self, limit=None):
-        """
-        Get the least popular flatpages.
-        """
-        return self.get_flatpages(self, '-popular', limit=limit)
-    
+    # def most_popular(self, limit=None):
+    #     """
+    #     Get the most popular flatpages.
+    #     """
+    #     return self.get_flatpages(self, 'popular', limit=limit)
+    # 
+    # def least_popular(self, limit=None):
+    #     """
+    #     Get the least popular flatpages.
+    #     """
+    #     return self.get_flatpages(self, '-popular', limit=limit)
+    # 
     def most_viewed(self, limit=None):
         """
         Get most viewed flatpages.
