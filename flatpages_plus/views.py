@@ -51,7 +51,12 @@ def render_flatpage(request, f):
         t = loader.select_template((f.template_name, DEFAULT_TEMPLATE))
     else:
         t = loader.get_template(DEFAULT_TEMPLATE)
-
+    
+    # Track pageviews (but not of owner).
+    if request.user != f.owner:
+        f.views += 1
+        f.save()
+    
     # To avoid having to always use the "|safe" filter in flatpage templates,
     # mark the title and content as already safe (since they are raw HTML
     # content in the first place).
