@@ -8,7 +8,7 @@ class FlatpagesManager(models.Manager):
     Allows flatpages to be listed and sorted by various criteria.
     """
     
-    def get_flatpages(self, sort='recent', tags=None, user=None, 
+    def get_flatpages(self, sort='modified', tags=None, user=None, 
                     limit=None, remove=None):
         """
         The main function to return flatpages based on various criteria.
@@ -18,29 +18,28 @@ class FlatpagesManager(models.Manager):
         All fields are optional. If nothing is passed to this manager, it will 
         return all flatpages, sorted by most recent.
         
-        sort=                       What to sort the flatpages by.
-            'recently_modified'     Returns newest flatpages first.
-            '-recently_modified'    Returns oldest plug ins first.
-            'recently_created'      Returns newest flatpages first.
-            '-recently_created'     Returns oldest plug ins first.
-            'popular'               Returns most popular flatpages first. 
-                                    Popular flatpages are determined by their 
-                                    overall rating and views.
-            '-popular'              Returns least popular flatpages first.
+        sort=                       What to sort the flatpages by. Optional.
+            'modified'              Returns newest flatpages first. Default.
+            '-modified'             Returns oldest plug ins first.
+            'created'               Returns newest flatpages first.
+            '-created'              Returns oldest plug ins first.
             'views'                 Returns the most viewed flatpages first.
             '-views'                Returns the least viewed flatpages first.
             'random'                Returns random flatpages.
-        
-        tags='foo,bar,baz'          Returns all flatpages tagged with either 'foo',
-                                    'bar', or 'baz'.
-        
-        author=1                    Returns all flatpages by an author with ID 1.
-        
+
+        tags='foo,bar,baz'          Returns all flatpages tagged with _either_      
+                                    'foo', 'bar', or 'baz'. Optional.
+
+        author=1                    Returns all flatpages by an author with ID 1. 
+                                    Optional.
+
         limit=10                    Limits the number of flatpages that are 
-                                    returned to 10 results.
-                                    
+                                    returned to 10 results. Optional.
+
         remove=1                    Removes a given plugin ID or list of IDs from
-                                    the results list.
+                                    the results list. Can be a string of IDs 
+                                    (e.g. '1,5,6,8,234') or an integer 
+                                    (e.g. 1). Optional.
         
         """
         # Get the initial queryset
