@@ -41,7 +41,6 @@ class FlatPage(models.Model):
     objects = FlatpagesManager()
     
     class Meta:
-        ordering = ('-created',)
         verbose_name = _('flat page')
         verbose_name_plural = _('flat pages')
         ordering = ('url',)
