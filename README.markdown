@@ -49,7 +49,7 @@ The `get_flatpages` templatetag uses the `FlatpagesManager` in `managers.py` to 
 
 Here are a few things you can do with the templatetag:
 
-- Sort flatpages by when they were modified or created.
+- Sort flatpages by when they were modified (most recent/least recent), created (also most recent/least recent), their view count (most viewed/least viewed) or randomize the results.
 - Filter flatpages by the user or users that "own" the page.
 - Filter results by what the URL starts with.
 - Get all pages that are tagged with a particular tag or set of tags.
