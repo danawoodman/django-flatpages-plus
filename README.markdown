@@ -44,7 +44,7 @@ The most basic usage is:
 ... which will return all flatpages in the system in a template variable called `flatpages`, which could be used like so:
 
     <ul>
-        {% for f in flatpages %}
+        {% for f in flatpages.all %}
             <li><a href="{{ f.url }}" title="View the {{ f.title }} page">{{ f.title }}</a></li>
         {% endfor %}
     </ul>
