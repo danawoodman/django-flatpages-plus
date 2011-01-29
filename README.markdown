@@ -65,7 +65,7 @@ Here are a few more useful examples:
 
     {% get_flatpages tags='foo,bar,baz' %}
 
-... which will return all flatpages that are tagged with *either* 'foo', 'bar', or 'baz'.
+... which will return all flatpages that are tagged with *either* 'foo', 'bar', 'baz', or a combination of the three.
 
     {% get_flatpages remove=3 limit=5 %}
 
