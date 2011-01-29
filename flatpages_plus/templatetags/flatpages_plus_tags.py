@@ -161,10 +161,11 @@ def get_flatpages(parser, token):
     bits = token.split_contents()
     remaining_bits = bits[1:]
     var_name = 'flatpages'
-    if remaining_bits[-2] == 'as':
-        var_name = remaining_bits[-1]
-        # Remove the var_name and "as" bits from the list or it will throw an error.
-        del remaining_bits[-2:-1]
+    if remaining_bits:
+        if remaining_bits[-2] == 'as':
+            var_name = remaining_bits[-1]
+            # Remove the var_name and "as" bits from the list or it will throw an error.
+            del remaining_bits[-2:-1]
     extra_context = token_kwargs(remaining_bits, parser)
     return FlatpagesNode(extra_context, var_name)
 
