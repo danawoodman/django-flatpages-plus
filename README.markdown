@@ -12,7 +12,7 @@ This app adds a few "missing" features to flatpages including:
 - A more robust manager.
 - A more robust `templatetag` (see "get_flatpages Templatetag" below)
 - "Page title" (used for `<title>` tag) and "Link name" (used to give links to pages a sane name).
-- Created and modified datestamps
+- Created and modified datestamps.
 
 This app is meant to replace the default `django.contrib.flatpages` app and will not work running along side it.
 
@@ -50,11 +50,13 @@ The `get_flatpages` templatetag uses the `FlatpagesManager` in `managers.py` to 
 Here are a few things you can do with the templatetag:
 
 - Sort flatpages by when they were modified or created.
-- Filter flatpages by the user or users that "owns" the page.
+- Filter flatpages by the user or users that "own" the page.
 - Filter results by what the URL starts with.
 - Get all pages that are tagged with a particular tag or set of tags.
 - Limit the results set to a specific number of results.
 - Remove a particular flatpage from a set of results. Useful if you want to show related flatpages without showing the current page in the list.
+
+### Basic Usage
 
 The most basic usage is:
 
@@ -65,9 +67,11 @@ The most basic usage is:
 
     <ul>
         {% for f in flatpages.all %}
-            <li><a href="{{ f.url }}" title="View the {{ f.title }} page">{{ f.title }}</a></li>
+            <li><a href="{{ f.url }}" title="View the {{ f.name }} page">{{ f.name }}</a></li>
         {% endfor %}
     </ul>
+
+### More Examples
 
 Here are a few more useful examples:
 
