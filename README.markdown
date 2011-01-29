@@ -74,13 +74,13 @@ Here are a few more useful examples:
 
 Here is a full list of the different arguments you can pass the `get_flatpages` templatetag.
 
-    sort=                       What to sort the flatpages by. Optional.
-        'modified'              Returns newest flatpages first. Default.
-        '-modified'             Returns oldest flatpages first.
-        'created'               Returns newest flatpages first.
-        '-created'              Returns oldest flatpages first.
-        'views'                 Returns the most viewed flatpages first.
-        '-views'                Returns the least viewed flatpages first.
+    sort=                       What to sort the flatpages by. Optional. Default is by url.
+        'created'               Returns least recently created flatpages first.
+        '-created'              Returns most recently created flatpages first.
+        'modified'              Returns least recently modified flatpages first.
+        '-modified'             Returns most recently modified flatpages first.
+        'views'                 Returns the least viewed flatpages first.
+        '-views'                Returns the most viewed flatpages first.
         'random'                Returns random flatpages.
 
     tags='foo,bar,baz'          Returns all flatpages tagged with _either_      
