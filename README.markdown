@@ -33,7 +33,7 @@ This app works basically the same as the default flatpages, just with a few more
 
         ./manage.py syncdb
 
-## `templatetag`
+## get_flatpages Templatetag
 
 django-flatpages-plus offers a more robust `templatetag` to use when retrieving flatpages in your templates.
 
