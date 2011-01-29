@@ -33,7 +33,8 @@ def flatpage(request, url):
         return HttpResponseRedirect("%s/" % request.path)
     if not url.startswith('/'):
         url = "/" + url
-    f = get_object_or_404(FlatPage, url__exact=url, sites__id__exact=settings.SITE_ID)
+    f = get_object_or_404(FlatPage, url__exact=url, status='p',
+        sites__id__exact=settings.SITE_ID)
     return render_flatpage(request, f)
 
 @csrf_protect
