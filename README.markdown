@@ -99,7 +99,7 @@ Here is a full list of the different arguments you can pass the `get_flatpages` 
 
 ## Credits
 
-Copyright &copy; 2011 [Dana Woodman](danaw) <dana@danawoodman.com>
+Copyright &copy; 2011 [Dana Woodman][] <dana@danawoodman.com>
 
 
 ## License
@@ -108,4 +108,4 @@ Released under an MIT license. See the `LICENSE` file for more information.
 
 
 [django-taggit]: https://github.com/alex/django-taggit "View django-taggit on GitHub"
-[danaw]: http://www.danawoodman.com/ "View Dana's website"
+[Dana Woodman]: http://www.danawoodman.com/ "View Dana's website"
