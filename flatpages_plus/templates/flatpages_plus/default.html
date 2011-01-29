@@ -13,14 +13,14 @@
                     {% if not forloop.last %}
                         {# If there is a URL to the page, that means it exists in the system, so let's link to it. #}
                         {% if b.url %}
-                            <a href="{{ b.url }}" title="View the {{ b.title }} page">{{ b.title }}</a> &raquo;
+                            <a href="{{ b.url }}" title="View the {{ b.name }} page">{{ b.name }}</a> &raquo;
                         {# If there is no URL, that means the flatpage doesn't exist, so we don't want to show a link to it since that would raise a 404 error. #}
                         {% else %}
-                            {{ b.title }} &raquo;
+                            {{ b.name }} &raquo;
                         {% endif %}
                     {# If this is the last breadcrumb item, show it without a link (since we are already on the page, we don't need to link to it.) #}
                     {% else %}
-                        {{ b.title }}
+                        {{ b.name }}
                     {% endif %}
                 {% endif %}
             {% endfor %}

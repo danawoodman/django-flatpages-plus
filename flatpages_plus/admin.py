@@ -11,15 +11,16 @@ class FlatPageAdmin(admin.ModelAdmin):
         (None, {'fields': (
             'url',
             'title',
+            'name',
             'owner',
             'status',
             'content',
             'tags',
-            'sites',
         )}),
         (_('Advanced options'), {
             'classes': ('collapse',), 
             'fields': (
+                'sites',
                 'enable_comments', 
                 'registration_required', 
                 'template_name',
@@ -27,8 +28,8 @@ class FlatPageAdmin(admin.ModelAdmin):
             )
         }),
     )
-    list_display = ('url', 'title', 'status', 'owner',)
+    list_display = ('url', 'title', 'name', 'status', 'owner',)
     list_filter = ('status', 'sites', 'enable_comments', 'registration_required',)
-    search_fields = ('url', 'title', 'owner',)
+    search_fields = ('url', 'title', 'name', 'owner',)
 
 admin.site.register(FlatPage, FlatPageAdmin)

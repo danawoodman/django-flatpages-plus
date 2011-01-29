@@ -117,13 +117,13 @@ def render_flatpage(request, f):
     # Loop through the list of pages and construct a list of url/title dictionaries
     # for each page to use in the templates.
     for i, u in enumerate(breadcrumb_urls):
-        bt = ''
+        bn = ''
         bu = ''
         try: # Try and get a flatpage instance from the URL.
             # if u != '/':
             #     u = '/%s/' % u
             fp = FlatPage.objects.get(url__exact=u)
-            bt = fp.title
+            bn = fp.name
             bu = fp.url
         except: # Try to handle missing pages cleanly.
             regex = re.compile(r'.*/(?P<url>[-\w\.]+)/?$')
@@ -131,18 +131,18 @@ def render_flatpage(request, f):
                 # Default to the URL slug of the last segment of the URL 
                 # (capitalized) if no flatpage was found. This gives us an 
                 # OK default for missing pages.
-                bt = regex.match(u).group('url')
+                bn = regex.match(u).group('url')
             except:
                 # Worst case scenario we show the URL as the title if we can't 
                 # grab the last bit of the URL...
-                bt = u
-            bt = bt.capitalize() # Capitalize it to make it look a little nicer.
+                bn = u
+            bn = bn.capitalize() # Capitalize it to make it look a little nicer.
             # Return None if the flatpage doesn't exist so we don't link to it, 
             # because it would cause a 404 error if we did.
             bu = None
         breadcrumbs += [{ # Contsruct a dictionary for the breadcrumb entity.
             'url': bu,
-            'title': bt,
+            'name': bn,
         }]
     
     
