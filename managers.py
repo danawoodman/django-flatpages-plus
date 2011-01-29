@@ -22,7 +22,7 @@ class FlatpagesManager(models.Manager):
             'modified'              Returns newest flatpages first. Default.
             '-modified'             Returns oldest flatpages first.
             'created'               Returns newest flatpages first.
-            '-created'              Returns oldest plug ins first.
+            '-created'              Returns oldest flatpages first.
             'views'                 Returns the most viewed flatpages first.
             '-views'                Returns the least viewed flatpages first.
             'random'                Returns random flatpages.

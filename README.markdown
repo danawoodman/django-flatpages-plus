@@ -77,7 +77,7 @@ Here is a full list of the different arguments you can pass the `get_flatpages` 
         'modified'              Returns newest flatpages first. Default.
         '-modified'             Returns oldest flatpages first.
         'created'               Returns newest flatpages first.
-        '-created'              Returns oldest plug ins first.
+        '-created'              Returns oldest flatpages first.
         'views'                 Returns the most viewed flatpages first.
         '-views'                Returns the least viewed flatpages first.
         'random'                Returns random flatpages.
@@ -99,7 +99,7 @@ Here is a full list of the different arguments you can pass the `get_flatpages` 
 
 ## Credits
 
-Copyright &copy; 2011 Dana Woodman <dana@danawoodman.com>
+Copyright &copy; 2011 [Dana Woodman]() <dana@danawoodman.com>
 
 
 ## License
@@ -108,3 +108,4 @@ Released under an MIT license. See the `LICENSE` file for more information.
 
 
 [django-taggit]: https://github.com/alex/django-taggit "View django-taggit on GitHub"
+[Dana Woodman]: http://www.danawoodman.com/ "View Dana's website"
