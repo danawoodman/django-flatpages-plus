@@ -1,3 +1,5 @@
+import re
+
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.core.xheaders import populate_xheaders
@@ -65,22 +67,84 @@ def render_flatpage(request, f):
     f.content = mark_safe(f.content)
     
     # Create breadcrumb navigation links.
-    # Creates something like: [{}'projects', 'jquery', 'name-of-project']
-    breadcrumb_urls = f.url.lstrip('/').rstrip('/').split('/')
+    # breadcrumb_urls = f.url.lstrip('/').rstrip('/').split('/')
+    # breadcrumb_urls.insert(0, '/')
+    # 
+    # for i, u in enumerate(breadcrumb_urls):
+    #     try: # Try and get a flatpage instance from the URL.
+    #         if u != '/':
+    #             u = '/%s/' % u
+    #         fp = FlatPage.objects.get(url__exact=u)
+    #         bt = fp.title
+    #         bu = fp.url
+    #     except: # Default to the URL slug, capitalized if no flatpage was found.
+    #         bt = u.capitalize()
+    #         bu = None
+    #     breadcrumbs += [{ # Contsruct a dictionary for the breadcrumb entity.
+    #         'url': bu,
+    #         'title': bt,
+    #     }]
+    
+    
+
+    breadcrumb_urls = []
     breadcrumbs = []
+
+    def trim_page(url):
+        """Trim the last section off a URL."""
+        regex = re.compile(r'(?P<url>.*/)[-\w\.]+/?$')
+        try:
+            trimmed_url = regex.match(url).group('url') # Return the parent page
+        except:
+            trimmed_url = None # Return None to indicate no parent.
+        return trimmed_url
+
+    def do_trimming(url):
+        """Perform the trimming operations recursively."""
+        breadcrumb_urls.append(url)
+        trimmed_url = trim_page(url)
+        if trimmed_url:
+            do_trimming(trimmed_url)
+        else:
+            return True
+    
+    # Trim the flatpage's URL.
+    do_trimming(f.url)
+    
+    # Reverse the list of breadcrumbs so the parent pages start first.
+    breadcrumb_urls.reverse()
+    
+    # Loop through the list of pages and construct a list of url/title dictionaries
+    # for each page to use in the templates.
     for i, u in enumerate(breadcrumb_urls):
+        bt = ''
+        bu = ''
         try: # Try and get a flatpage instance from the URL.
-            fp = FlatPage.objects.get(url__exact='/%s/' % u)
+            # if u != '/':
+            #     u = '/%s/' % u
+            fp = FlatPage.objects.get(url__exact=u)
             bt = fp.title
             bu = fp.url
-        except: # Default to the URL slug, capitalized if no flatpage was found.
-            bt = u.capitalize()
+        except: # Try to handle missing pages cleanly.
+            regex = re.compile(r'.*/(?P<url>[-\w\.]+)/?$')
+            try:
+                # Default to the URL slug of the last segment of the URL 
+                # (capitalized) if no flatpage was found. This gives us an 
+                # OK default for missing pages.
+                bt = regex.match(u).group('url')
+            except:
+                # Worst case scenario we show the URL as the title if we can't 
+                # grab the last bit of the URL...
+                bt = u
+            bt = bt.capitalize() # Capitalize it to make it look a little nicer.
+            # Return None if the flatpage doesn't exist so we don't link to it, 
+            # because it would cause a 404 error if we did.
             bu = None
         breadcrumbs += [{ # Contsruct a dictionary for the breadcrumb entity.
             'url': bu,
             'title': bt,
         }]
-                
+    
     
     c = RequestContext(request, {
         'flatpage': f,
