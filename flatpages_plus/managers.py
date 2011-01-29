@@ -8,6 +8,10 @@ class FlatpagesManager(models.Manager):
     Allows flatpages to be listed and sorted by various criteria.
     """
     
+    # def published(self):
+    #     """Get only published"""
+    #     pass
+    
     def get_flatpages(self, sort='modified', tags=None, owner=None, limit=None, 
                     remove=None):
         """
@@ -67,10 +71,7 @@ class FlatpagesManager(models.Manager):
             raise e
             
         if tags:
-            def get_tag_name(tag):
-                """Get the name of a tag."""
-                return tag.name
-            tag_list = map(get_tag_name, tags)
+            tag_list = tags.split(',')
             query_set = query_set.filter(tags__name__in=tag_list).distinct()
             
         if owner:
