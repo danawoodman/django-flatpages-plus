@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.core.urlresolvers import reverse
 from django.core.xheaders import populate_xheaders
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404
@@ -62,9 +63,28 @@ def render_flatpage(request, f):
     # content in the first place).
     f.title = mark_safe(f.title)
     f.content = mark_safe(f.content)
-
+    
+    # Create breadcrumb navigation links.
+    # Creates something like: [{}'projects', 'jquery', 'name-of-project']
+    breadcrumb_urls = f.url.lstrip('/').rstrip('/').split('/')
+    breadcrumbs = []
+    for i, u in enumerate(breadcrumb_urls):
+        try: # Try and get a flatpage instance from the URL.
+            fp = FlatPage.objects.get(url__exact='/%s/' % u)
+            bt = fp.title
+            bu = fp.url
+        except: # Default to the URL slug, capitalized if no flatpage was found.
+            bt = u.capitalize()
+            bu = None
+        breadcrumbs += [{ # Contsruct a dictionary for the breadcrumb entity.
+            'url': bu,
+            'title': bt,
+        }]
+                
+    
     c = RequestContext(request, {
         'flatpage': f,
+        'breadcrumbs': breadcrumbs,
     })
     response = HttpResponse(t.render(c))
     populate_xheaders(request, response, FlatPage, f.id)
