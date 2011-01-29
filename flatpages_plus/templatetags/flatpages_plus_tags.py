@@ -99,6 +99,8 @@
 
 
 
+# TODO: Add starts_with so we can list pages under a section (see above).
+
 from django import template
 from django.template.base import TemplateSyntaxError
 from django.template.defaulttags import token_kwargs
@@ -119,35 +121,16 @@ class FlatpagesNode(template.Node):
         values = dict([(key, val.resolve(context)) for key, val in
                        self.extra_context.iteritems()])
         
-        # TODO: Do these need to be in try blocks? Will the get function handle errors?
-        
-        try:
-           sort = values.get('sort', 'recent')
-        except Exception, e:
-           raise e
-        
-        try:
-            tags = values.get('tags', None)
-        except Exception, e:
-            raise e
-        
-        try:
-            owner = values.get('owner', None)
-        except Exception, e:
-            raise e
-        
-        try:
-            limit = values.get('limit', None)
-        except Exception, e:
-            raise e
-        
-        try:
-            remove = values.get('remove', None)
-        except Exception, e:
-            raise e
+        sort = values.get('sort', 'recent')
+        tags = values.get('tags', None)
+        starts_with = values.get('starts_with', None)
+        owner = values.get('owner', None)
+        limit = values.get('limit', None)
+        remove = values.get('remove', None)
         
         context[self.var_name] = FlatPage.objects.get_flatpages(sort=sort, 
                                             tags=tags, 
+                                            starts_with=starts_with,
                                             owner=owner, 
                                             limit=limit, 
                                             remove=remove)
@@ -168,9 +151,10 @@ def get_flatpages(parser, token):
     
         {% get_flatpages as flatpages %}
         {% get_flatpages sort='views' as flatpages %}
-        {% get_flatpages sort='random' limit=10 as flatpages %}
-        {% get_flatpages sort='-modified' user=1 limit=5 as user_flatpages %}
-        {% get_flatpages sort='-created' tags='foo,bar,baz' as flatpages %}
+        {% get_flatpages sort='random' limit=10 as random_flatpages %}
+        {% get_flatpages user=1 limit=5 as user_flatpages %}
+        {% get_flatpages tags='foo,bar,baz' as flatpages %}
+        {% get_flatpages starts_with='/about/' as about_pages %}
         {% get_flatpages sort='random' remove=flatpage.id limit=5 as random_flatpages %}
     
     """

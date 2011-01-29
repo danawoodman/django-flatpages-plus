@@ -1,5 +1,6 @@
 import datetime
 
+from django.conf import settings
 from django.db import models
 
 
@@ -12,8 +13,8 @@ class FlatpagesManager(models.Manager):
     #     """Get only published"""
     #     pass
     
-    def get_flatpages(self, sort='modified', tags=None, owner=None, limit=None, 
-                    remove=None):
+    def get_flatpages(self, sort='modified', tags=None, starts_with=None, 
+                    owner=None, limit=None, remove=None):
         """
         The main function to return flatpages based on various criteria.
         
@@ -30,16 +31,19 @@ class FlatpagesManager(models.Manager):
             'views'                 Returns the least viewed flatpages first.
             '-views'                Returns the most viewed flatpages first.
             'random'                Returns random flatpages.
-
+            
         tags='foo,bar,baz'          Returns all flatpages tagged with _either_      
                                     'foo', 'bar', or 'baz'. Optional.
-
+        
+        starts_with='/about/'       Return all flatpages that have a URL that 
+                                    starts with '/about/'.
+        
         owner=1                     Returns all flatpages by the User with ID 1. 
                                     Optional.
-
+                                    
         limit=10                    Limits the number of flatpages that are 
                                     returned to 10 results. Optional.
-
+                                    
         remove=1                    Removes a given flatpage ID or list of IDs from
                                     the results list. Can be a string of IDs 
                                     (e.g. '1,5,6,8,234') or an integer 
@@ -48,6 +52,9 @@ class FlatpagesManager(models.Manager):
         """
         # Get the initial queryset
         query_set = self.get_query_set()
+        
+        # Filter by the current site.
+        query_set = query_set.filter(sites__id=settings.SITE_ID)
         
         # Get all the filtering sort types.
         sort_types = {
@@ -60,17 +67,15 @@ class FlatpagesManager(models.Manager):
             'random': query_set.order_by('?')
         }
         
-        # Try to get the type of sorting the user wants. Default to most
-        # recently modified.
-        try:
-            query_set = sort_types.get(sort, query_set)
-        except Exception, e:
-            raise e
+        query_set = sort_types.get(sort, query_set)
             
         if tags:
             tag_list = tags.split(',')
             query_set = query_set.filter(tags__name__in=tag_list).distinct()
             
+        if starts_with:
+            query_set = query_set.filter(url__startswith=starts_with)
+        
         if owner:
             query_set = query_set.filter(owner__pk=owner)
             

@@ -72,6 +72,10 @@ Here are a few more useful examples:
 
 ... which will return five of the most recent flatpages, excluding the flatpage with an ID of 3.
 
+    {% get_flatpages starts_with='/about/' %}
+
+... which will return all pages whose URLs start with `/about/` (e.g. `/about/`, `/about/contact/`, `/about/team/`, etc...).
+
 Here is a full list of the different arguments you can pass the `get_flatpages` templatetag.
 
     sort=                       What to sort the flatpages by. Optional. Default is by url.
@@ -82,16 +86,19 @@ Here is a full list of the different arguments you can pass the `get_flatpages` 
         'views'                 Returns the least viewed flatpages first.
         '-views'                Returns the most viewed flatpages first.
         'random'                Returns random flatpages.
-
+        
     tags='foo,bar,baz'          Returns all flatpages tagged with _either_      
                                 'foo', 'bar', or 'baz'. Optional.
-
+    
+    starts_with='/about/'       Return all flatpages that have a URL that 
+                                starts with '/about/'.
+    
     owner=1                     Returns all flatpages by the User with ID 1. 
                                 Optional.
-
+                                
     limit=10                    Limits the number of flatpages that are 
                                 returned to 10 results. Optional.
-
+                                
     remove=1                    Removes a given flatpage ID or list of IDs from
                                 the results list. Can be a string of IDs 
                                 (e.g. '1,5,6,8,234') or an integer 
