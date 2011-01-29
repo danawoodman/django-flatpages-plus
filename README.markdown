@@ -83,9 +83,9 @@ Here are a few more useful examples:
 
 ... which will return the flatpages in random order, limiting the results to five flatpages.
 
-    {% get_flatpages user=1 limit=5 as user_flatpages %}
+    {% get_flatpages users=1 limit=5 as user_flatpages %}
 
-... which will return five flatpages by user whose ID is 1, as the template variable `user_flatpages`.
+... which will return five flatpages by the user whose ID is 1, as the template variable `user_flatpages`.
 
     {% get_flatpages tags='foo,bar,baz' %}
 
