@@ -39,6 +39,7 @@ django-flatpages-plus offers a more robust `templatetag` to use when retrieving 
 
 The most basic usage is:
 
+    {% load flatpages_plus_tags %}
     {% get_flatpages %}
 
 ... which will return all flatpages in the system in a template variable called `flatpages`, which could be used like so:
@@ -81,16 +82,16 @@ Here is a full list of the different arguments you can pass the `get_flatpages` 
         'views'                 Returns the most viewed flatpages first.
         '-views'                Returns the least viewed flatpages first.
         'random'                Returns random flatpages.
-    
+
     tags='foo,bar,baz'          Returns all flatpages tagged with _either_      
                                 'foo', 'bar', or 'baz'. Optional.
-    
-    author=1                    Returns all flatpages by an author with ID 1. 
+
+    owner=1                     Returns all flatpages by the User with ID 1. 
                                 Optional.
-    
+
     limit=10                    Limits the number of flatpages that are 
                                 returned to 10 results. Optional.
-                                
+
     remove=1                    Removes a given flatpage ID or list of IDs from
                                 the results list. Can be a string of IDs 
                                 (e.g. '1,5,6,8,234') or an integer 

@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.contrib.sites.models import Site
 from django.db import models
 from django.db.models import permalink
@@ -5,17 +6,24 @@ from django.utils.translation import ugettext_lazy as _
 
 from taggit.managers import TaggableManager
 
-# from flatpages_plus.managers import FlatpagesManager
+from flatpages_plus.managers import FlatpagesManager
 
 
 class FlatPage(models.Model):
     """
     A static page.
     """
+    STATUS_LEVELS = (
+        ('d', _('draft')),
+        ('p', _('published'))
+    )
     url = models.CharField(_('URL'), max_length=100, db_index=True)
     title = models.CharField(_('title'), max_length=200)
     content = models.TextField(_('content'), blank=True)
+    owner = models.ForeignKey(User, verbose_name=_('owner'), default=1)
     views = models.IntegerField(_('views'), default=0, blank=True, null=True)
+    status = models.CharField(_('status'), max_length=1, choices=STATUS_LEVELS, 
+        default='d')
     tags = TaggableManager()
     enable_comments = models.BooleanField(_('enable comments'))
     template_name = models.CharField(_('template name'), max_length=70, blank=True,
@@ -30,7 +38,7 @@ class FlatPage(models.Model):
     modified = models.DateTimeField(_('modified'), auto_now=True, 
         blank=True, null=True)
     
-    # objects = FlatpagesManager()
+    objects = FlatpagesManager()
     
     class Meta:
         verbose_name = _('flat page')

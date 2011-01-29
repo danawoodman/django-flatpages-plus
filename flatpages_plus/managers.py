@@ -8,8 +8,8 @@ class FlatpagesManager(models.Manager):
     Allows flatpages to be listed and sorted by various criteria.
     """
     
-    def get_flatpages(self, sort='modified', tags=None, user=None, 
-                    limit=None, remove=None):
+    def get_flatpages(self, sort='modified', tags=None, owner=None, limit=None, 
+                    remove=None):
         """
         The main function to return flatpages based on various criteria.
         
@@ -30,7 +30,7 @@ class FlatpagesManager(models.Manager):
         tags='foo,bar,baz'          Returns all flatpages tagged with _either_      
                                     'foo', 'bar', or 'baz'. Optional.
 
-        author=1                    Returns all flatpages by an author with ID 1. 
+        owner=1                     Returns all flatpages by the User with ID 1. 
                                     Optional.
 
         limit=10                    Limits the number of flatpages that are 
@@ -73,8 +73,8 @@ class FlatpagesManager(models.Manager):
             tag_list = map(get_tag_name, tags)
             query_set = query_set.filter(tags__name__in=tag_list).distinct()
             
-        if author:
-            query_set = query_set.filter(author__pk=author)
+        if owner:
+            query_set = query_set.filter(owner__pk=owner)
             
         if remove:
             remove = str(remove)

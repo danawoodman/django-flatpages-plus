@@ -132,7 +132,7 @@ class FlatpagesNode(template.Node):
             raise e
         
         try:
-            author = values.get('user', None)
+            owner = values.get('owner', None)
         except Exception, e:
             raise e
         
@@ -148,7 +148,7 @@ class FlatpagesNode(template.Node):
         
         context[self.var_name] = FlatPage.objects.get_flatpages(sort=sort, 
                                             tags=tags, 
-                                            user=user, 
+                                            owner=owner, 
                                             limit=limit, 
                                             remove=remove)
         return ''
