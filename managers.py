@@ -20,7 +20,7 @@ class FlatpagesManager(models.Manager):
         
         sort=                       What to sort the flatpages by. Optional.
             'modified'              Returns newest flatpages first. Default.
-            '-modified'             Returns oldest plug ins first.
+            '-modified'             Returns oldest flatpages first.
             'created'               Returns newest flatpages first.
             '-created'              Returns oldest plug ins first.
             'views'                 Returns the most viewed flatpages first.
@@ -36,7 +36,7 @@ class FlatpagesManager(models.Manager):
         limit=10                    Limits the number of flatpages that are 
                                     returned to 10 results. Optional.
 
-        remove=1                    Removes a given plugin ID or list of IDs from
+        remove=1                    Removes a given flatpage ID or list of IDs from
                                     the results list. Can be a string of IDs 
                                     (e.g. '1,5,6,8,234') or an integer 
                                     (e.g. 1). Optional.
