@@ -14,7 +14,7 @@ class FlatpagesManager(models.Manager):
     #     pass
     
     def get_flatpages(self, sort='modified', tags=None, starts_with=None, 
-                    owner=None, limit=None, remove=None):
+                    owners=None, limit=None, remove=None):
         """
         The main function to return flatpages based on various criteria.
         
@@ -38,8 +38,10 @@ class FlatpagesManager(models.Manager):
         starts_with='/about/'       Return all flatpages that have a URL that 
                                     starts with '/about/'.
         
-        owner=1                     Returns all flatpages by the User with ID 1. 
-                                    Optional.
+        owners=1                    Returns all flatpages by the User with ID 1. 
+                                    Optional. Can be a string of IDs 
+                                    (e.g. '1,5,6,8,234') or an integer 
+                                    (e.g. 1). Optional.
                                     
         limit=10                    Limits the number of flatpages that are 
                                     returned to 10 results. Optional.
@@ -76,8 +78,10 @@ class FlatpagesManager(models.Manager):
         if starts_with:
             query_set = query_set.filter(url__startswith=starts_with)
         
-        if owner:
-            query_set = query_set.filter(owner__pk=owner)
+        if owners:
+            owners = str(owners)
+            owner_list = owners.split(',')
+            query_set = query_set.filter(owner__pk__in=owner_list)
             
         if remove:
             remove = str(remove)

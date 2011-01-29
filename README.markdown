@@ -4,7 +4,15 @@
 
 A more robust flatpages app for Django.
 
-This app adds a few "missing" features to flatpages including tagging (via [django-taggit][] currently), page view counting, a more robust `templatetag`, created and modified datestamps and a few more niceties... 
+This app adds a few "missing" features to flatpages including: 
+
+- Tagging (via [django-taggit][] currently)
+- Automatic and intelligent breadcrumb creation.
+- Page view tracking
+- A more robust manager.
+- A more robust `templatetag` (see "get_flatpages Templatetag" below)
+- "Page title" (used for `<title>` tag) and "Link name" (used to give links to pages a sane name).
+- Created and modified datestamps
 
 This app is meant to replace the default `django.contrib.flatpages` app and will not work running along side it.
 
@@ -36,6 +44,17 @@ This app works basically the same as the default flatpages, just with a few more
 ## get_flatpages Templatetag
 
 django-flatpages-plus offers a more robust `templatetag` to use when retrieving flatpages in your templates.
+
+The `get_flatpages` templatetag uses the `FlatpagesManager` in `managers.py` to handle sorting, filtering and excluding flatpages from the result set.
+
+Here are a few things you can do with the templatetag:
+
+- Sort flatpages by when they were modified or created.
+- Filter flatpages by the user or users that "owns" the page.
+- Filter results by what the URL starts with.
+- Get all pages that are tagged with a particular tag or set of tags.
+- Limit the results set to a specific number of results.
+- Remove a particular flatpage from a set of results. Useful if you want to show related flatpages without showing the current page in the list.
 
 The most basic usage is:
 
@@ -93,8 +112,10 @@ Here is a full list of the different arguments you can pass the `get_flatpages` 
     starts_with='/about/'       Return all flatpages that have a URL that 
                                 starts with '/about/'.
     
-    owner=1                     Returns all flatpages by the User with ID 1. 
-                                Optional.
+    owners=1                    Returns all flatpages by the User with ID 1. 
+                                Optional. Can be a string of IDs 
+                                (e.g. '1,5,6,8,234') or an integer 
+                                (e.g. 1). Optional.
                                 
     limit=10                    Limits the number of flatpages that are 
                                 returned to 10 results. Optional.

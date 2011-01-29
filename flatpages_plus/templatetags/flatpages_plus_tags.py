@@ -124,14 +124,14 @@ class FlatpagesNode(template.Node):
         sort = values.get('sort', 'recent')
         tags = values.get('tags', None)
         starts_with = values.get('starts_with', None)
-        owner = values.get('owner', None)
+        owners = values.get('owners', None)
         limit = values.get('limit', None)
         remove = values.get('remove', None)
         
         context[self.var_name] = FlatPage.objects.get_flatpages(sort=sort, 
                                             tags=tags, 
                                             starts_with=starts_with,
-                                            owner=owner, 
+                                            owners=owners, 
                                             limit=limit, 
                                             remove=remove)
         return ''
@@ -152,7 +152,7 @@ def get_flatpages(parser, token):
         {% get_flatpages as flatpages %}
         {% get_flatpages sort='views' as flatpages %}
         {% get_flatpages sort='random' limit=10 as random_flatpages %}
-        {% get_flatpages user=1 limit=5 as user_flatpages %}
+        {% get_flatpages owners=1 limit=5 as user_flatpages %}
         {% get_flatpages tags='foo,bar,baz' as flatpages %}
         {% get_flatpages starts_with='/about/' as about_pages %}
         {% get_flatpages sort='random' remove=flatpage.id limit=5 as random_flatpages %}
