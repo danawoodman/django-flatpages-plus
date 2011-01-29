@@ -24,7 +24,7 @@ class FlatPage(models.Model):
     views = models.IntegerField(_('views'), default=0, blank=True, null=True)
     status = models.CharField(_('status'), max_length=1, choices=STATUS_LEVELS, 
         default='d')
-    tags = TaggableManager()
+    tags = TaggableManager(blank=True)
     enable_comments = models.BooleanField(_('enable comments'))
     template_name = models.CharField(_('template name'), max_length=70, blank=True,
         help_text=_("Example: 'flatpages/contact_page.html'. If this isn't \
