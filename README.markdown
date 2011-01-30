@@ -21,7 +21,9 @@ This app works basically the same as the default flatpages, just with a few more
 
 ## Usage
 
-1. Install django-flatpages-plus by either running `setup.py`, putting it on your `PythonPath`.
+1. Install django-flatpages-plus by either running `setup.py`, or somehow putting it on your `PythonPath`. I recommend installing with [PIP](http://pip.openplans.org/) in a [virtualenv](http://pypi.python.org/pypi/virtualenv) (and using [virtualenvwrapper](http://www.doughellmann.com/projects/virtualenvwrapper/) to make things easier for you).
+
+        pip install django-flatpages-plus
 
 1. Add `flatpages_plus` to `INSTALLED_APPS`:
 
