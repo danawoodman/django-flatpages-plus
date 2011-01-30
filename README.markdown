@@ -41,6 +41,16 @@ This app works basically the same as the default flatpages, just with a few more
 
         ./manage.py syncdb
 
+
+## Dependencies
+
+This application currently requires [django-taggit](https://github.com/alex/django-taggit).
+
+*I have plans to make it optional, but currently it is hard coded in.*
+
+The application uses [Django South](http://south.aeracode.org/) for database schema migrations. You shouldn't need it except if you need to upgrade the application after a database change.
+
+
 ## get_flatpages Templatetag
 
 django-flatpages-plus offers a more robust `templatetag` to use when retrieving flatpages in your templates.
