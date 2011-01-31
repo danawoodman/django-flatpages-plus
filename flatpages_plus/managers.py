@@ -85,7 +85,7 @@ class FlatpagesManager(models.Manager):
             
         if remove:
             remove = str(remove)
-            remove_list = remove.split()
+            remove_list = remove.split(',')
             query_set = query_set.exclude(pk__in=remove_list)
             
         # Limit the length of the result.
