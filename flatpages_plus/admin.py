@@ -28,7 +28,7 @@ class FlatPageAdmin(admin.ModelAdmin):
             )
         }),
     )
-    list_display = ('url', 'title', 'name', 'status', 'owner', 'modified', 'created')
+    list_display = ('url', 'title', 'name', 'status', 'owner', 'views', 'modified', 'created')
     list_filter = ('status', 'sites', 'enable_comments', 'registration_required',)
     search_fields = ('url', 'title', 'name', 'owner',)
 
