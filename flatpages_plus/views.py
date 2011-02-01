@@ -21,13 +21,13 @@ DEFAULT_TEMPLATE = 'flatpages_plus/default.html'
 # or a redirect is required for authentication, the 404 needs to be returned
 # without any CSRF checks. Therefore, we only
 # CSRF protect the internal implementation.
-def flatpage(request, url):
+def flatpage(request, url, **kwargs):
     """
     Public interface to the flat page view.
 
     Models: `flatpages.flatpages`
     Templates: Uses the template defined by the ``template_name`` field,
-        or `flatpages/default.html` if template_name is not defined.
+        or `flatpages_plus/default.html` if template_name is not defined.
     Context:
         flatpage
             `flatpages.flatpages` object
@@ -56,9 +56,12 @@ def render_flatpage(request, f):
         t = loader.get_template(DEFAULT_TEMPLATE)
     
     # Track pageviews (but not of owner).
-    if request.user != f.owner:
-        f.views += 1
-        f.save()
+    try:
+        if request.user != f.owner:
+            f.views += 1
+            f.save()
+    except:
+        pass
     
     # To avoid having to always use the "|safe" filter in flatpage templates,
     # mark the title and content as already safe (since they are raw HTML
