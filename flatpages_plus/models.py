@@ -57,8 +57,11 @@ class FlatPage(models.Model):
     def __unicode__(self):
         return u"%s -- %s" % (self.url, self.title)
         
-    @permalink
-    def get_absolute_url(self):
-        return ('flatpage', None, {
-            'url': self.url
-        })
+    # @permalink
+    # def get_absolute_url(self):
+    #     return ('flatpage', None, {
+    #         'url': self.url
+    #     })
+    
+    def get_absolute_url(self): 
+        return '%s' % self.url
