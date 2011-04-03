@@ -157,6 +157,39 @@ def get_flatpages(parser, token):
         {% get_flatpages starts_with='/about/' as about_pages %}
         {% get_flatpages sort='random' remove=flatpage.id limit=5 as random_flatpages %}
     
+    All fields are optional. If nothing is passed to the templatetag, it will 
+    return all flatpages, sorted by most recently created
+    
+    Here are the available options::
+    
+        sort=                       What to sort the flatpages by. Optional. Default is by url.
+            'created'               Returns least recently created flatpages first.
+            '-created'              Returns most recently created flatpages first.
+            'modified'              Returns least recently modified flatpages first.
+            '-modified'             Returns most recently modified flatpages first.
+            'views'                 Returns the most viewed flatpages first.
+            '-views'                Returns the least viewed flatpages first.
+            'random'                Returns random flatpages.
+        
+        tags='foo,bar,baz'          Returns all flatpages tagged with _either_      
+                                    'foo', 'bar', or 'baz'. Optional.
+    
+        starts_with='/about/'       Return all flatpages that have a URL that 
+                                    starts with '/about/'.
+    
+        owners=1                    Returns all flatpages by the User with ID 1. 
+                                    Optional. Can be a string of IDs 
+                                    (e.g. '1,5,6,8,234') or an integer 
+                                    (e.g. 1). Optional.
+                                
+        limit=10                    Limits the number of flatpages that are 
+                                    returned to 10 results. Optional.
+                                
+        remove=1                    Removes a given flatpage ID or list of IDs from
+                                    the results list. Can be a string of IDs 
+                                    (e.g. '1,5,6,8,234') or an integer 
+                                    (e.g. 1). Optional.
+    
     """
     bits = token.split_contents()
     remaining_bits = bits[1:]

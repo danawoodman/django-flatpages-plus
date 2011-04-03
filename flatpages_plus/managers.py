@@ -28,8 +28,8 @@ class FlatpagesManager(models.Manager):
             '-created'              Returns most recently created flatpages first.
             'modified'              Returns least recently modified flatpages first.
             '-modified'             Returns most recently modified flatpages first.
-            'views'                 Returns the least viewed flatpages first.
-            '-views'                Returns the most viewed flatpages first.
+            'views'                 Returns the most viewed flatpages first.
+            '-views'                Returns the least viewed flatpages first.
             'random'                Returns random flatpages.
             
         tags='foo,bar,baz'          Returns all flatpages tagged with _either_      
@@ -64,18 +64,19 @@ class FlatpagesManager(models.Manager):
             '-modified': query_set.order_by('-modified'),
             'created': query_set.order_by('created'),
             '-created': query_set.order_by('-created'),
-            'views': query_set.order_by('views'),
-            '-views': query_set.order_by('-views'),
+            'views': query_set.order_by('-views'),
+            '-views': query_set.order_by('views'),
             'random': query_set.order_by('?')
         }
         
         query_set = sort_types.get(sort, query_set)
             
         if tags:
-            tag_list = tags.split(',')
+            tag_list = str(tags).split(',')
             query_set = query_set.filter(tags__name__in=tag_list).distinct()
             
         if starts_with:
+            starts_with = str(starts_with)
             query_set = query_set.filter(url__startswith=starts_with)
         
         if owners:
@@ -90,9 +91,25 @@ class FlatpagesManager(models.Manager):
             
         # Limit the length of the result.
         if limit:
+            limit = int(limit)
             query_set = query_set[:limit]
             
         return query_set
+        
+        
+        
+        
+        # Try to get the type of sorting the user wants. Default to most
+        # recently modified.
+        # try:
+        #     query_set = sort_types.get(sort, query_set)
+        # except Exception, e:
+        #     raise e
+        
+        
+        
+        
+        
     
     def most_recently_modified(self, limit=None):
         """
@@ -118,18 +135,6 @@ class FlatpagesManager(models.Manager):
         """
         return self.get_flatpages(self, '-created', limit=limit)
     
-    # def most_popular(self, limit=None):
-    #     """
-    #     Get the most popular flatpages.
-    #     """
-    #     return self.get_flatpages(self, 'popular', limit=limit)
-    # 
-    # def least_popular(self, limit=None):
-    #     """
-    #     Get the least popular flatpages.
-    #     """
-    #     return self.get_flatpages(self, '-popular', limit=limit)
-    # 
     def most_viewed(self, limit=None):
         """
         Get most viewed flatpages.
