@@ -13,7 +13,7 @@ class FlatpagesManager(models.Manager):
     #     """Get only published"""
     #     pass
     
-    def get_flatpages(self, sort='modified', tags=None, starts_with=None, 
+    def get_flatpages(self, sort='modified', tags=None, not_tags=None, starts_with=None, 
                     owners=None, limit=None, remove=None):
         """
         The main function to return flatpages based on various criteria.
@@ -35,6 +35,9 @@ class FlatpagesManager(models.Manager):
         tags='foo,bar,baz'          Returns all flatpages tagged with _either_      
                                     'foo', 'bar', or 'baz'. Optional.
         
+        not_tags='foo,bar'          Removes any flatpages tagged with 'foo' or
+                                    'bar' from the QuerySet.
+                                    
         starts_with='/about/'       Return all flatpages that have a URL that 
                                     starts with '/about/'.
         
@@ -74,7 +77,11 @@ class FlatpagesManager(models.Manager):
         if tags:
             tag_list = str(tags).split(',')
             query_set = query_set.filter(tags__name__in=tag_list).distinct()
-            
+        
+        if not_tags:
+            not_tags_list = str(not_tags).split(',')
+            query_set = query_set.exclude(tags__name__in=not_tags_list)
+        
         if starts_with:
             starts_with = str(starts_with)
             query_set = query_set.filter(url__startswith=starts_with)

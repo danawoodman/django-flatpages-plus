@@ -123,6 +123,7 @@ class FlatpagesNode(template.Node):
         
         sort = values.get('sort', 'recent')
         tags = values.get('tags', None)
+        not_tags = values.get('not_tags', None)
         starts_with = values.get('starts_with', None)
         owners = values.get('owners', None)
         limit = values.get('limit', None)
@@ -130,6 +131,7 @@ class FlatpagesNode(template.Node):
         
         context[self.var_name] = FlatPage.objects.get_flatpages(sort=sort, 
                                             tags=tags, 
+                                            not_tags=not_tags,
                                             starts_with=starts_with,
                                             owners=owners, 
                                             limit=limit, 
@@ -173,6 +175,9 @@ def get_flatpages(parser, token):
         
         tags='foo,bar,baz'          Returns all flatpages tagged with _either_      
                                     'foo', 'bar', or 'baz'. Optional.
+        
+        not_tags='foo,bar'          Removes any flatpages tagged with 'foo' or
+                                    'bar' from the QuerySet.
     
         starts_with='/about/'       Return all flatpages that have a URL that 
                                     starts with '/about/'.
