@@ -87,19 +87,16 @@ class FlatpagesManager(models.Manager):
             query_set = query_set.filter(url__startswith=starts_with)
         
         if owners:
-            owners = str(owners)
-            owner_list = owners.split(',')
+            owners_list = str(owners).split(',')
             query_set = query_set.filter(owner__pk__in=owner_list)
             
         if remove:
-            remove = str(remove)
-            remove_list = remove.split(',')
+            remove_list = str(remove).split(',')
             query_set = query_set.exclude(pk__in=remove_list)
             
         # Limit the length of the result.
         if limit:
-            limit = int(limit)
-            query_set = query_set[:limit]
+            query_set = query_set[:int(limit)]
             
         return query_set
         
