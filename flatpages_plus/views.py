@@ -3,7 +3,7 @@ import re
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.core.xheaders import populate_xheaders
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import get_object_or_404
 from django.template import loader, RequestContext
 from django.utils.safestring import mark_safe
@@ -24,7 +24,7 @@ DEFAULT_TEMPLATE = 'flatpages_plus/default.html'
 def flatpage(request, url, **kwargs):
     """
     Public interface to the flat page view.
-
+    
     Models: `flatpages.flatpages`
     Templates: Uses the template defined by the ``template_name`` field,
         or `flatpages_plus/default.html` if template_name is not defined.
@@ -36,7 +36,7 @@ def flatpage(request, url, **kwargs):
         return HttpResponseRedirect("%s/" % request.path)
     if not url.startswith('/'):
         url = "/" + url
-    f = get_object_or_404(FlatPage, url__exact=url, status='p',
+    f = get_object_or_404(FlatPage, url__exact=url, #status='p',
         sites__id__exact=settings.SITE_ID)
     return render_flatpage(request, f)
 
@@ -45,6 +45,9 @@ def render_flatpage(request, f):
     """
     Internal interface to the flat page view.
     """
+    # If the page is a draft, only show it to users who are staff.
+    if f.status == 'd' and not request.user.is_authenticated():
+        raise Http404
     # If registration is required for accessing this page, and the user isn't
     # logged in, redirect to the login page.
     if f.registration_required and not request.user.is_authenticated():
@@ -56,12 +59,9 @@ def render_flatpage(request, f):
         t = loader.get_template(DEFAULT_TEMPLATE)
     
     # Track pageviews (but not of owner).
-    try:
-        if request.user != f.owner:
-            f.views += 1
-            f.save()
-    except:
-        pass
+    if request.user != f.owner:
+        f.views += 1
+        f.save()
     
     # To avoid having to always use the "|safe" filter in flatpage templates,
     # mark the title and content as already safe (since they are raw HTML
