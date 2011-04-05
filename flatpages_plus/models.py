@@ -18,10 +18,10 @@ class FlatPage(models.Model):
         ('d', _('draft')),
         ('p', _('published'))
     )
-    url = models.CharField(_('URL'), max_length=100, db_index=True)
+    url = models.CharField(_('URL'), max_length=150, db_index=True)
     title = models.CharField(_('page title'), max_length=200, help_text=_('The title \
         of the page is used in the HTML title of the page.'))
-    name = models.CharField(_('link name'), max_length=50, default=_('unamed'), 
+    name = models.CharField(_('link name'), max_length=80, default=_('unamed'), 
         help_text=_('The name of the page is used in creating links to \
         pages and the breadcrumbs.'))
     content = models.TextField(_('content'), blank=True)
