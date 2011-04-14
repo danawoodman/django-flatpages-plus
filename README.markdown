@@ -12,6 +12,10 @@ This app adds a few "missing" features to flatpages including:
 - A more robust manager.
 - A more robust `templatetag` (see "get_flatpages Templatetag" below)
 - "Page title" (used for `<title>` tag) and "Link name" (used to give links to pages a sane name).
+- Published status (published or draft) to control page visibility on the front end.
+- Automatically associate a FlatPage with the current site (from settings.SITE_ID).
+- A provided template for FlatPages so you can be up and running quickly.
+- A page owner (a User) who is responsible for the page.
 - Created and modified datestamps.
 
 This app is meant to replace the default `django.contrib.flatpages` app and will not work running along side it.
