@@ -2,6 +2,8 @@
 
 ## Description
 
+**Note: This project is no longer actively maintained, use at your own risk. Feel free to submit pull requests if you find a bug.**
+
 A more robust flatpages app for Django.
 
 This app adds a few "missing" features to flatpages including: 
